@@ -33,15 +33,15 @@ Installing MongoDB
 ```
 md \data\db
 ```
-4. For example C:\data\db
-5. You can specify an alternate path for data files using the --dbpath option to mongod.exe, for example:
+For example C:\data\db
+4. You can specify an alternate path for data files using the --dbpath option to mongod.exe, for example:
 ```
 "<YOUR_MONGODB_PATH>\bin\mongod.exe" --dbpath <YOUR_DATA_FOLDER_PATH>\data
 ```
-6. For example "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath C:\data
-7. Execute "<YOUR_MONGODB_PATH>\bin\mongo.exe" to open client command prompt.  
+For example "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --dbpath C:\data
+5. Execute "<YOUR_MONGODB_PATH>\bin\mongo.exe" to open client command prompt.  
 
-8. Create a database "offsite_test" and a collection "Transaction".
+6. Create a database "offsite_test" and a collection "Transaction".
 ```
 use offsite_test
 
