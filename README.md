@@ -51,7 +51,7 @@ db.createCollection("Transaction")
 Installing Redis
 
 1. Go to https://redis.io/download and download the stable version.
-2. For Windows user, go to https://github.com/MSOpenTech/redis/releases and download the .msi file.
+2. For Windows users, please go to https://github.com/MSOpenTech/redis/releases and download the .msi file.
 2. Execute the installation package.
 
 Run
