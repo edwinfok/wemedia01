@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title><%= data.title %></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	.ui-dialog-titlebar-close {
+	  background: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_888888_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+	  border: medium none;
+	}
+	.ui-dialog-titlebar-close:hover {
+	  background: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_222222_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+	}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Offsite Test</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="/">Create Payment</a></li>
+			<li><a href="/check_payment">Check Payment</a></li>
+		</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h2>Create Payment Form</h2>
+		<form id="payment_form" method="post">
+			<h4>Order Section</h4>
+			<div class="form-group">
+				<label for="customer_name">Custom Name:</label>
+				<input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter Customer Name" value="<%= data.request_body.customer_name %>" required>
+			</div>
+			<div class="form-group">
+				<label for="customer_phone_number">Custom Phone Number:</label>
+				<input type="text" class="form-control" name="customer_phone_number" id="customer_phone_number" placeholder="Enter Customer Phone Number" pattern="\d+" value="<%= data.request_body.customer_phone_number %>" required>
+			</div>
+			<div class="form-group">
+				<label for="currency">Select list:</label>
+				<select class="form-control" name="currency" id="currency">
+					<option value="HKD"<% if(data.request_body.currency=='HKD'){ %> selected<% } %>>HKD</option>
+					<option value="USD"<% if(data.request_body.currency=='USD'){ %> selected<% } %>>USD</option>
+					<option value="AUD"<% if(data.request_body.currency=='AUD'){ %> selected<% } %>>AUD</option>
+					<option value="EUR"<% if(data.request_body.currency=='EUR'){ %> selected<% } %>>EUR</option>
+					<option value="JPY"<% if(data.request_body.currency=='JPY'){ %> selected<% } %>>JPY</option>
+					<option value="CNY"<% if(data.request_body.currency=='CNY'){ %> selected<% } %>>CNY</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="price">Price:</label>
+				<input type="text" class="form-control" name="price" id="price" placeholder="Enter Price" pattern="\d+(\.\d{1,2})*" value="<%= data.request_body.price %>" required>
+			</div>
+			<h4>Payment Section</h4>
+			<div class="form-group">
+				<label for="cc_holder_name">Credit Card Holder Name:</label>
+				<input type="text" class="form-control" name="cc_holder_name" id="cc_holder_name" placeholder="Enter Credit Card Holder Name" pattern="\w+ \w+.*" value="<%= data.request_body.cc_holder_name %>" required>
+			</div>
+			<div class="form-group">
+				<label for="cc_number">Credit Card Number:</label>
+				<input type="text" class="form-control" name="cc_number" id="cc_number" placeholder="Enter Credit Card Number" maxlength="16" pattern="\d{13,16}" value="<%= data.request_body.cc_number %>" required>
+			</div>
+			<div class="form-group">
+				<label for="expiry-month">Credit Card Expiration</label>
+				<div>
+					<div class="row">
+						<div class="col-xs-3">
+							<select class="form-control col-sm-2" name="cc_expiration_month" id="cc_expiration_month" required>
+								<option value="1"<% if(data.request_body.cc_expiration_month=='1'){ %> selected<% } %>>01</option>
+								<option value="2"<% if(data.request_body.cc_expiration_month=='2'){ %> selected<% } %>>02</option>
+								<option value="3"<% if(data.request_body.cc_expiration_month=='3'){ %> selected<% } %>>03</option>
+								<option value="4"<% if(data.request_body.cc_expiration_month=='4'){ %> selected<% } %>>04</option>
+								<option value="5"<% if(data.request_body.cc_expiration_month=='5'){ %> selected<% } %>>05</option>
+								<option value="6"<% if(data.request_body.cc_expiration_month=='6'){ %> selected<% } %>>06</option>
+								<option value="7"<% if(data.request_body.cc_expiration_month=='7'){ %> selected<% } %>>07</option>
+								<option value="8"<% if(data.request_body.cc_expiration_month=='8'){ %> selected<% } %>>08</option>
+								<option value="9"<% if(data.request_body.cc_expiration_month=='9'){ %> selected<% } %>>09</option>
+								<option value="10"<% if(data.request_body.cc_expiration_month=='10'){ %> selected<% } %>>10</option>
+								<option value="11"<% if(data.request_body.cc_expiration_month=='11'){ %> selected<% } %>>11</option>
+								<option value="12"<% if(data.request_body.cc_expiration_month=='12'){ %> selected<% } %>>12</option>
+							</select>
+						</div>
+						<div class="col-xs-3">
+							<select class="form-control" name="cc_expiration_year" id="cc_expiration_year" required>
+								<% for(var i=0; i < data.year_array.length; i++) { %>
+								<option value="<%= data.year_array[i] %>"<% if(data.request_body.cc_expiration_year==data.year_array[i]){ %> selected<% } %>><%= data.year_array[i] %></option>
+								<% } %>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="ccv">CCV:</label>
+				<div>
+					<input type="text" class="form-control" name="ccv" id="ccv" placeholder="Enter CCV" maxlength="3" pattern="\d{3}" value="<%= data.request_body.ccv %>" required>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</div>
+
+	<div id="dialog-message" title="">
+		<p id="dialog_text"></p>
+	</div>
+
+<script>
+jQuery(document).ready(function ($){
+	dialog = $( "#dialog-message" ).dialog({
+		autoOpen: false,
+		height: 200,
+		width: 350,
+		modal: true,
+		buttons: {
+			OK: function() {
+				dialog.dialog( "close" );
+			}
+		},
+	});
+
+	$('#payment_form').on('submit', function (event){
+		event.preventDefault();
+		event.returnValue = false;
+		$(this).find('button[type="submit"]').button('loading');
+		$.ajax({
+			type: 'POST',
+			url: '/',
+			data: $("#payment_form").serialize(),
+			dataType: 'json',
+			success: function(response){
+				if(response.status === 'created' || response.status == 'approved' || response.status == 'authorized')
+				{
+					$("#dialog_text").text("Succcess! Your Payment Reference Code is " + response.transaction_id);
+					dialog.dialog( "open" );
+				}
+				else
+				{
+					$("#dialog_text").text(response.responseText);
+					dialog.dialog( "open" );
+				}
+				$("#payment_form").find('button[type="submit"]').button('reset');
+			},
+			error: function(error){
+				$("#dialog_text").text(error.responseText);
+				dialog.dialog( "open" );
+				$("#payment_form").find('button[type="submit"]').button('reset');
+			}
+		})
+	})
+})
+</script>
+
+
+</body>
+</html>

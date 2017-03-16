@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title><%= data.title %></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	.ui-dialog-titlebar-close {
+	  background: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_888888_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+	  border: medium none;
+	}
+	.ui-dialog-titlebar-close:hover {
+	  background: url("http://code.jquery.com/ui/1.10.3/themes/smoothness/images/ui-icons_222222_256x240.png") repeat scroll -93px -128px rgba(0, 0, 0, 0);
+	}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Offsite Test</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/">Create Payment</a></li>
+			<li class="active"><a href="/check_payment">Check Payment</a></li>
+		</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h2>Check Payment Form</h2>
+		<form id="search_form" method="post">
+			<div class="form-group">
+				<label for="customer_name">Custom Name:</label>
+				<input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Enter Customer Name" value="<%= data.request_body.customer_name %>" required>
+			</div>
+			<div class="form-group">
+				<label for="payment_reference_code">Payment Reference Code:</label>
+				<input type="text" class="form-control" name="payment_reference_code" id="payment_reference_code" placeholder="Enter Payment Reference Code" value="<%= data.request_body.payment_reference_code %>" required>
+			</div>
+			<button type="submit" class="btn btn-default">Search</button>
+		</form>
+	</div>
+
+	<div id="dialog-message" title="">
+		<p id="dialog_text"></p>
+	</div>
+
+<script>
+jQuery(document).ready(function ($){
+
+	dialog = $( "#dialog-message" ).dialog({
+		autoOpen: false,
+		height: 200,
+		width: 350,
+		modal: true,
+		buttons: {
+			OK: function() {
+				dialog.dialog( "close" );
+			}
+		},
+	});
+
+	$('#search_form').on('submit', function (event){
+		event.preventDefault();
+		event.returnValue = false;
+		$(this).find('button[type="submit"]').button('loading');
+		$.ajax({
+			type: 'POST',
+			url: '/check_payment',
+			data: $("#search_form").serialize(),
+			dataType: 'json',
+			success: function(response){
+				if(response.succ)
+				{
+					$("#dialog_text").html("Customer Name: "+response.customer_name+"<br>Cumtomer Phone Number: "+response.customer_phone_number+"<br>Currency: "+response.currency+"<br>Price: "+response.price);
+					dialog.dialog( "open" );
+				}
+				else
+				{
+					$("#dialog_text").text("Record No Found");
+					dialog.dialog( "open" );
+				}
+				$("#search_form").find('button[type="submit"]').button('reset');
+			},
+			error: function(error){
+				$("#dialog_text").text("Error Occur");
+				dialog.dialog( "open" );
+				$("#search_form").find('button[type="submit"]').button('reset');
+			}
+		})
+	})
+})
+</script>
+</body>
+</html>
